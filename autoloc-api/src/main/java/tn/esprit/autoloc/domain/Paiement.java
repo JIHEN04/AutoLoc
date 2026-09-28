@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "paiement")
@@ -25,9 +25,14 @@ public class Paiement {
     private BigDecimal montant;
 
     @Column(nullable = false)
-    private LocalDateTime datePaiement;
+    private LocalDate datePaiement;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private ModePaiement modePaiement;
+
+    // Paiement * --- 1 Contrat (cote proprietaire : colonne id_contrat)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_contrat", nullable = false)
+    private Contrat contrat;
 }

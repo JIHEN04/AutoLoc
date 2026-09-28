@@ -27,4 +27,9 @@ public class Employe {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private RoleEmploye role;
+
+    // Employe * --- 1 Agence (cote proprietaire : colonne id_agence)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_agence", nullable = false)
+    private Agence agence;
 }

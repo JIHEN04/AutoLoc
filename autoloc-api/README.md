@@ -43,8 +43,12 @@ DESCRIBE vehicule;
 SELECT * FROM vehicule;
 ```
 
-Tables attendues (9) : `agence`, `client`, `contrat`, `employe`, `equipement`,
-`maintenance`, `paiement`, `reservation`, `vehicule`.
+Tables attendues (10) : `agence`, `client`, `contrat`, `employe`, `equipement`,
+`maintenance`, `paiement`, `reservation`, `vehicule` + la table de jointure `vehicule_equipement`.
+
+```sql
+SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'autoloc_db';  -- 10
+```
 
 ## Structure des packages
 
@@ -57,6 +61,27 @@ tn.esprit.autoloc
 ├── web.controller  (Atelier 5)
 └── web.dto         (Atelier 6)
 ```
+
+## Atelier 2 — Associations
+
+| Association | Mapping JPA | Clé étrangère / table |
+|---|---|---|
+| Agence 1 — * Vehicule | `@ManyToOne` (Vehicule) / `@OneToMany(mappedBy)` (Agence) | `vehicule.id_agence` |
+| Agence 1 — * Employe | `@ManyToOne` (Employe) / `@OneToMany(mappedBy)` (Agence) | `employe.id_agence` |
+| Vehicule 1 — * Maintenance | `@ManyToOne` (Maintenance) / `@OneToMany(cascade = ALL)` (Vehicule) | `maintenance.id_vehicule` |
+| Vehicule * — * Equipement | `@ManyToMany` + `@JoinTable` (Vehicule) / `mappedBy` (Equipement) | table `vehicule_equipement` |
+| Vehicule 1 — * Reservation | `@ManyToOne` (Reservation) / `@OneToMany(mappedBy)` (Vehicule) | `reservation.id_vehicule` |
+| Client 1 — * Reservation | `@ManyToOne` (Reservation) / `@OneToMany(mappedBy)` (Client) | `reservation.id_client` |
+| Reservation 1 — 1 Contrat | `@OneToOne` (Contrat) / `mappedBy` (Reservation) | `contrat.id_reservation` (unique) |
+| Contrat 1 ◆— * Paiement | `@ManyToOne` (Paiement) / `@OneToMany(cascade = ALL, orphanRemoval = true)` (Contrat) | `paiement.id_contrat` |
+
+- Tous les `@ManyToOne` / `@OneToOne` propriétaires sont en `FetchType.LAZY` (par défaut ils sont EAGER).
+- Cascade uniquement quand l'enfant ne peut pas exister sans son parent : composition Contrat–Paiement,
+  historique de maintenance d'un véhicule.
+- `mappedBy` désigne le côté inverse (sans clé étrangère) et évite des tables de jointure inutiles.
+
+Procédure : `ddl-auto=create` → lancer l'application (drop + create des tables) → vérifier 10 tables →
+remettre `ddl-auto=update`.
 
 ## Choix techniques
 
