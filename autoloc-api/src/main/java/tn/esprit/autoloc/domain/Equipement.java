@@ -21,10 +21,10 @@ public class Equipement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEquipement;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 50)
     private String libelle;
 
-    // Equipement * --- * Vehicule (cote inverse)
+    // N Equipement <-> N Vehicule (côté inverse)
     @ManyToMany(mappedBy = "equipements")
     private Set<Vehicule> vehicules = new HashSet<>();
 }

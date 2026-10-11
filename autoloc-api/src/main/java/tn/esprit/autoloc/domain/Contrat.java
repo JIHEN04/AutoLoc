@@ -32,12 +32,12 @@ public class Contrat {
     @Column(nullable = false)
     private boolean valide;
 
-    // Contrat 1 --- 1 Reservation (cote proprietaire : colonne id_reservation, unique)
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_reservation", nullable = false, unique = true)
+    // 1 Contrat <-> 1 Reservation (côté propriétaire, clé étrangère unique)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservation_id", unique = true)
     private Reservation reservation;
 
-    // Composition Contrat 1 <>--- * Paiement : un paiement n'existe pas sans son contrat
+    // 1 Contrat -> N Paiement : composition, ALL + orphanRemoval
     @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Paiement> paiements = new ArrayList<>();
 }

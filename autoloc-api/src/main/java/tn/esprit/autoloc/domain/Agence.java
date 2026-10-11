@@ -27,17 +27,17 @@ public class Agence {
     @Column(nullable = false, length = 50)
     private String ville;
 
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String adresse;
 
     @Column(length = 20)
     private String telephone;
 
-    // Agence 1 --- * Vehicule (cote inverse, la cle etrangere est dans vehicule)
-    @OneToMany(mappedBy = "agence")
+    // 1 Agence -> N Vehicule : pas de cascade (supprimer une agence ne supprime pas ses véhicules)
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     private List<Vehicule> vehicules = new ArrayList<>();
 
-    // Agence 1 --- * Employe (cote inverse, la cle etrangere est dans employe)
-    @OneToMany(mappedBy = "agence")
+    // 1 Agence -> N Employe
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     private List<Employe> employes = new ArrayList<>();
 }

@@ -9,4 +9,5 @@ class AutolocApiApplicationTests {
     @Test
     void contextLoads() {
     }
+
 }

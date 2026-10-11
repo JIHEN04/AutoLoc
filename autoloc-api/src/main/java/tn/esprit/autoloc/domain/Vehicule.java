@@ -44,25 +44,21 @@ public class Vehicule {
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
 
-    // Vehicule * --- 1 Agence (cote proprietaire : colonne id_agence)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_agence", nullable = false)
+    // N Vehicule -> 1 Agence (côté propriétaire : porte la clé étrangère agence_id)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agence_id")
     private Agence agence;
 
-    // Vehicule 1 --- * Maintenance : l'historique de maintenance suit le cycle de vie du vehicule
-    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Maintenance> maintenances = new ArrayList<>();
-
-    // Vehicule 1 --- * Reservation (pas de cascade : une reservation a sa propre vie)
-    @OneToMany(mappedBy = "vehicule")
-    private List<Reservation> reservations = new ArrayList<>();
-
-    // Vehicule * --- * Equipement (cote proprietaire : table de jointure vehicule_equipement)
-    @ManyToMany
+    // N Vehicule <-> N Equipement (côté propriétaire : crée la table de jointure)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "vehicule_equipement",
-            joinColumns = @JoinColumn(name = "id_vehicule"),
-            inverseJoinColumns = @JoinColumn(name = "id_equipement")
+            joinColumns = @JoinColumn(name = "vehicule_id"),
+            inverseJoinColumns = @JoinColumn(name = "equipement_id")
     )
     private Set<Equipement> equipements = new HashSet<>();
+
+    // 1 Vehicule -> N Reservation (côté inverse)
+    @OneToMany(mappedBy = "vehicule")
+    private List<Reservation> reservations = new ArrayList<>();
 }

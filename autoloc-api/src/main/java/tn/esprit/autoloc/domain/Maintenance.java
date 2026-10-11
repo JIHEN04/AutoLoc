@@ -23,14 +23,13 @@ public class Maintenance {
     @Column(nullable = false)
     private LocalDate dateDebut;
 
-    // Nullable : une maintenance en cours n'a pas encore de date de fin
-    private LocalDate dateFin;
+    private LocalDate dateFin; // null tant que la maintenance est en cours
 
     @Column(length = 500)
     private String description;
 
-    // Maintenance * --- 1 Vehicule (cote proprietaire : colonne id_vehicule)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_vehicule", nullable = false)
+    // N Maintenance -> 1 Vehicule (unidirectionnelle)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "vehicule_id")
     private Vehicule vehicule;
 }

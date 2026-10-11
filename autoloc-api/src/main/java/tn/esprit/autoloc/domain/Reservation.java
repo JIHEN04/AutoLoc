@@ -30,17 +30,17 @@ public class Reservation {
     @Column(nullable = false, length = 20)
     private StatutReservation statut;
 
-    // Reservation * --- 1 Client (cote proprietaire : colonne id_client)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_client", nullable = false)
+    // N Reservation -> 1 Client
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
     private Client client;
 
-    // Reservation * --- 1 Vehicule (cote proprietaire : colonne id_vehicule)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_vehicule", nullable = false)
+    // N Reservation -> 1 Vehicule
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicule_id")
     private Vehicule vehicule;
 
-    // Reservation 1 --- 1 Contrat (cote inverse, la cle etrangere est dans contrat)
+    // 1 Reservation <-> 1 Contrat (côté inverse)
     @OneToOne(mappedBy = "reservation")
     private Contrat contrat;
 }

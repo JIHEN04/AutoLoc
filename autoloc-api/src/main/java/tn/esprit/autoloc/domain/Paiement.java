@@ -31,8 +31,8 @@ public class Paiement {
     @Column(nullable = false, length = 20)
     private ModePaiement modePaiement;
 
-    // Paiement * --- 1 Contrat (cote proprietaire : colonne id_contrat)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_contrat", nullable = false)
+    // N Paiement -> 1 Contrat
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contrat_id")
     private Contrat contrat;
 }

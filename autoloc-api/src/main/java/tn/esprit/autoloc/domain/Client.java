@@ -40,7 +40,7 @@ public class Client {
     @Column(nullable = false)
     private LocalDate dateInscription;
 
-    // Client 1 --- * Reservation (cote inverse)
-    @OneToMany(mappedBy = "client")
+    // 1 Client -> N Reservation : PERSIST (les nouvelles réservations sont enregistrées avec le client)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private List<Reservation> reservations = new ArrayList<>();
 }
