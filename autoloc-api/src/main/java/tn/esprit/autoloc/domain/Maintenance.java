@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Maintenance {
 
     @Id
@@ -23,13 +25,13 @@ public class Maintenance {
     @Column(nullable = false)
     private LocalDate dateDebut;
 
-    private LocalDate dateFin; // null tant que la maintenance est en cours
+    private LocalDate dateFin;
 
-    @Column(length = 500)
+    @Column(length = 255)
     private String description;
 
-    // N Maintenance -> 1 Vehicule (unidirectionnelle)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    /** N Maintenance -> 1 Vehicule, cascade PERSIST. */
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "vehicule_id")
     private Vehicule vehicule;
 }

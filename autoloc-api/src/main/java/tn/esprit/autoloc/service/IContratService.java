@@ -1,5 +1,18 @@
 package tn.esprit.autoloc.service;
 
+import tn.esprit.autoloc.domain.Contrat;
+
+import java.util.List;
+
 public interface IContratService {
-    // Les opérations métier de Contrat seront ajoutées dans les prochains ateliers.
+
+    List<Contrat> retrieveAllContrats();
+
+    Contrat retrieveContrat(Long idContrat);
+
+    Contrat addContrat(Contrat contrat);
+
+    Contrat updateContrat(Long idContrat, Contrat contrat);
+
+    void removeContrat(Long idContrat);
 }

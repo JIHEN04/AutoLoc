@@ -1,5 +1,18 @@
 package tn.esprit.autoloc.service;
 
+import tn.esprit.autoloc.domain.Agence;
+
+import java.util.List;
+
 public interface IAgenceService {
-    // Les opérations métier de Agence seront ajoutées dans les prochains ateliers.
+
+    List<Agence> retrieveAllAgences();
+
+    Agence retrieveAgence(Long idAgence);
+
+    Agence addAgence(Agence agence);
+
+    Agence updateAgence(Long idAgence, Agence agence);
+
+    void removeAgence(Long idAgence);
 }

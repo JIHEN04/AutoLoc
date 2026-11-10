@@ -12,7 +12,7 @@ public interface IClientService {
 
     Client addClient(Client client);
 
-    Client updateClient(Client client);
+    Client updateClient(Long idClient, Client client);
 
     void removeClient(Long idClient);
 }

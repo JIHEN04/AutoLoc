@@ -1,5 +1,18 @@
 package tn.esprit.autoloc.service;
 
+import tn.esprit.autoloc.domain.Paiement;
+
+import java.util.List;
+
 public interface IPaiementService {
-    // Les opérations métier de Paiement seront ajoutées dans les prochains ateliers.
+
+    List<Paiement> retrieveAllPaiements();
+
+    Paiement retrievePaiement(Long idPaiement);
+
+    Paiement addPaiement(Paiement paiement);
+
+    Paiement updatePaiement(Long idPaiement, Paiement paiement);
+
+    void removePaiement(Long idPaiement);
 }

@@ -1,0 +1,524 @@
+{
+  "info": {
+    "name": "AutoLoc API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Agences",
+      "item": [
+        {
+          "name": "GET tous les agences",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agences"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET agences par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agences/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agences",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST ajouter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/agences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agences"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"AutoLoc Bizerte\",\n  \"ville\": \"Bizerte\",\n  \"adresse\": \"Rue de la Republique\",\n  \"telephone\": \"72000004\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PUT modifier",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/agences/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agences",
+                "1"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"AutoLoc Tunis Lac\",\n  \"ville\": \"Tunis\",\n  \"adresse\": \"Les Berges du Lac\",\n  \"telephone\": \"71000009\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE supprimer (dernier cree)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agences/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agences",
+                "4"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vehicules",
+      "item": [
+        {
+          "name": "GET tous les vehicules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET vehicules par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST ajouter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"immatriculation\": \"250 TU 7777\",\n  \"marque\": \"Toyota\",\n  \"modele\": \"Corolla\",\n  \"categorie\": \"BERLINE\",\n  \"tarifJournalier\": 120.0,\n  \"statut\": \"DISPONIBLE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PUT modifier",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "1"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"immatriculation\": \"123 TU 4567\",\n  \"marque\": \"Peugeot\",\n  \"modele\": \"208 GT\",\n  \"categorie\": \"CITADINE\",\n  \"tarifJournalier\": 90.0,\n  \"statut\": \"DISPONIBLE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE supprimer (vehicule cree par POST)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "5"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "name": "GET tous les clients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET clients par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clients/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST ajouter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Mansour\",\n  \"prenom\": \"Yassine\",\n  \"email\": \"yassine.mansour@mail.tn\",\n  \"telephone\": \"98555666\",\n  \"numPermis\": \"PERM-1003\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PUT modifier",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/clients/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients",
+                "1"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Gharbi\",\n  \"prenom\": \"Mohamed\",\n  \"email\": \"mohamed.gharbi@mail.tn\",\n  \"telephone\": \"20999888\",\n  \"numPermis\": \"PERM-1001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE supprimer (client cree par POST)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clients/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients",
+                "3"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scenario 1 - Mutation employe vers Tunis",
+      "item": [
+        {
+          "name": "1. Voir l'employe 1 (agence Sousse)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employes/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "employes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2. Affecter directement -> 409 (deja dans une agence)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employes/1/affecter/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "employes",
+                "1",
+                "affecter",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3. Desaffecter l'employe 1",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employes/1/desaffecter",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "employes",
+                "1",
+                "desaffecter"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4. Affecter l'employe 1 a Tunis (agence 1)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/employes/1/affecter/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "employes",
+                "1",
+                "affecter",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scenario 2 - Vehicule neuf rattache a Sfax",
+      "item": [
+        {
+          "name": "1. Voir le vehicule 3 (sans agence)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "3"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2. Affecter le vehicule 3 a Sfax (agence 2)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/3/affecter-agence/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "3",
+                "affecter-agence",
+                "2"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scenario 3 - Siege bebe (ManyToMany)",
+      "item": [
+        {
+          "name": "1. Installer le siege bebe (equipement 2) sur le vehicule 1",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/1/affecter-equipement/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "1",
+                "affecter-equipement",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2. Retirer le siege bebe au retour",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vehicules/1/desaffecter-equipement/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vehicules",
+                "1",
+                "desaffecter-equipement",
+                "2"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

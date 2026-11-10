@@ -1,5 +1,7 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +20,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Vehicule {
 
     @Id
@@ -44,21 +47,28 @@ public class Vehicule {
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
 
-    // N Vehicule -> 1 Agence (côté propriétaire : porte la clé étrangère agence_id)
-    @ManyToOne(fetch = FetchType.LAZY)
+    /** N Vehicule -> 1 Agence (cote proprietaire : porte la cle etrangere agence_id). */
+    @ManyToOne
     @JoinColumn(name = "agence_id")
     private Agence agence;
 
-    // N Vehicule <-> N Equipement (côté propriétaire : crée la table de jointure)
+    /**
+     * N Vehicule <-> N Equipement (cote proprietaire, table de jointure vehicule_equipement).
+     * Ex. : GPS, siege bebe, coffre de toit.
+     */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "vehicule_equipement",
+    @JoinTable(name = "vehicule_equipement",
             joinColumns = @JoinColumn(name = "vehicule_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipement_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "equipement_id"))
     private Set<Equipement> equipements = new HashSet<>();
 
-    // 1 Vehicule -> N Reservation (côté inverse)
+    /** 1 Vehicule -> N Reservation (cote inverse). */
     @OneToMany(mappedBy = "vehicule")
+    @JsonIgnore
     private List<Reservation> reservations = new ArrayList<>();
+
+    /** 1 Vehicule -> N Maintenance (cote inverse). */
+    @OneToMany(mappedBy = "vehicule")
+    @JsonIgnore
+    private List<Maintenance> maintenances = new ArrayList<>();
 }
