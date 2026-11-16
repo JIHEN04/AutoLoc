@@ -1,15 +1,10 @@
 package tn.esprit.autoloc.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "agence")
@@ -17,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Agence {
 
     @Id
@@ -30,22 +24,9 @@ public class Agence {
     @Column(nullable = false, length = 50)
     private String ville;
 
-    @Column(length = 255)
+    @Column(nullable = false, length = 255)
     private String adresse;
 
     @Column(length = 20)
     private String telephone;
-
-    /**
-     * 1 Agence -> N Vehicule (cote inverse, LAZY).
-     * Volontairement SANS cascade de suppression : supprimer une agence ne supprime pas ses vehicules.
-     */
-    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Vehicule> vehicules = new ArrayList<>();
-
-    /** 1 Agence -> N Employe (cote inverse, LAZY). */
-    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Employe> employes = new ArrayList<>();
 }

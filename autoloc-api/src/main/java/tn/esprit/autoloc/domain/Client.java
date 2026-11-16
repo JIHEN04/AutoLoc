@@ -1,7 +1,5 @@
 package tn.esprit.autoloc.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -18,7 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Client {
 
     @Id
@@ -40,10 +35,6 @@ public class Client {
     @Column(nullable = false, unique = true, length = 30)
     private String numPermis;
 
+    @Column(nullable = false)
     private LocalDate dateInscription;
-
-    /** 1 Client -> N Reservation, cascade PERSIST : une nouvelle reservation est enregistree avec son client. */
-    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
-    @JsonIgnore
-    private List<Reservation> reservations = new ArrayList<>();
 }

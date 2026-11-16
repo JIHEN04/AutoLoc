@@ -1,49 +1,80 @@
-# AutoLoc API — UP ASI (Esprit)
+# AutoLoc — autoloc-api
 
-Plateforme de gestion de location de véhicules multi-agences (Spring Boot 3 / Java 17 / MySQL).
+UP ASI — Atelier 1 (Séance 2) : démarrage du projet Spring Boot + Maven et entités JPA.
 
-## Contenu par atelier
+Stack : Java 17, Maven, Spring Boot 3.5, Spring Data JPA (Hibernate), MySQL, Lombok, Validation, DevTools.
 
-| Atelier | Travail réalisé | Où le trouver |
-|---|---|---|
-| Atelier 1 | 9 entités JPA + 5 énumérations (Lombok ciblé, IDENTITY) | `domain/` |
-| Atelier 2 | Associations (@OneToMany, @ManyToOne, @ManyToMany, @OneToOne), cascade et fetch | `domain/` |
-| Atelier 3 | 9 repositories, 9 interfaces de service, 9 implémentations (CRUD complet) | `repository/`, `service/` |
-| Atelier 4 | RestControllers Agence, Vehicule, Client (+ Employe, Equipement), Swagger, @Operation / @ApiResponse | `web/controller/`, `config/OpenApiConfig` |
-| Affectations | `affecterEmploye`, `desaffecterEmploye`, `affecterVehicule`, `affecterEquipement`, `desaffecterEquipement` avec `@Transactional` | `EmployeServiceImpl`, `VehiculeServiceImpl` |
+## Ouvrir le projet dans IntelliJ IDEA
 
-## Tables générées (Atelier 2)
+1. `File → Open…` → sélectionner le dossier `autoloc-api` (celui qui contient `pom.xml`) → **Open as Project**.
+2. Attendre la fin de l'import Maven (barre de progression en bas à droite).
+3. `File → Project Structure → Project` : SDK = JDK 17 (ou supérieur).
+4. `Settings → Build, Execution, Deployment → Compiler → Annotation Processors` : cocher **Enable annotation processing**.
+5. Vérifier que le plugin **Lombok** est installé (`Settings → Plugins`).
 
-10 tables : `agence`, `vehicule`, `employe`, `equipement`, `client`, `reservation`, `contrat`, `paiement`, `maintenance` (9 entités) + `vehicule_equipement` (table de jointure du @ManyToMany).
+## Base de données
 
-Vérification dans MySQL :
+MySQL doit être démarré sur `localhost:3306`. La base `autoloc_db` est créée automatiquement
+grâce à `createDatabaseIfNotExist=true`.
+
+Le mot de passe n'est pas écrit en clair dans `application.properties` : il est lu depuis
+la variable d'environnement `DB_PASSWORD` (utilisateur : `DB_USERNAME`, `root` par défaut).
+
+Dans IntelliJ : `Run → Edit Configurations… → AutolocApiApplication → Environment variables` :
+
+```
+DB_PASSWORD=votre_mot_de_passe
+```
+
+## Lancer l'application
+
+Ouvrir `AutolocApiApplication.java` → bouton ▶. La console doit afficher
+`Started AutolocApiApplication in … seconds` ainsi que les requêtes `create table …`.
+
+Profil **dev** (facultatif) : dans la Run Configuration, `Active profiles` = `dev`.
+Il active des logs plus détaillés et insère 3 véhicules de démonstration si la table est vide.
+
+## Vérification en base
+
 ```sql
 USE autoloc_db;
 SHOW TABLES;
+DESCRIBE vehicule;
+SELECT * FROM vehicule;
 ```
 
-## Lancer le projet
+Tables attendues (9) : `agence`, `client`, `contrat`, `employe`, `equipement`,
+`maintenance`, `paiement`, `reservation`, `vehicule`.
 
-1. Démarrer MySQL (XAMPP, WAMP ou MySQL Server).
-2. IntelliJ : **File → Open** → choisir le dossier `autoloc-api` → **Open as Project**. Attendre la fin de l'import Maven.
-3. Activer Lombok : **Settings → Build, Execution, Deployment → Compiler → Annotation Processors → Enable annotation processing**.
-4. Mot de passe MySQL dans `src/main/resources/application.properties` :
-   `spring.datasource.password=${DB_PASSWORD:}` → mettre votre mot de passe après les `:` (vide pour XAMPP).
-5. Lancer `AutolocApiApplication`. La base `autoloc_db` et les tables sont créées automatiquement, puis des données de démonstration sont insérées.
+## Structure des packages
 
-## Tester
+```
+tn.esprit.autoloc
+├── config          DevDataInitializer (profil dev)
+├── domain          9 entités JPA + 5 énumérations
+├── repository      VehiculeRepository
+├── service         (Atelier 4)
+├── web.controller  (Atelier 5)
+└── web.dto         (Atelier 6)
+```
 
-- Swagger : http://localhost:8080/swagger-ui.html
-- Postman : importer `postman/AutoLoc.postman_collection.json`
+## Choix techniques
 
-## Scénarios d'affectation (données de démonstration)
+- `@Getter` / `@Setter` / `@NoArgsConstructor` / `@AllArgsConstructor` au lieu de `@Data`,
+  pour éviter les boucles `equals/hashCode/toString` quand les associations bidirectionnelles
+  seront ajoutées (Atelier 2).
+- `GenerationType.IDENTITY` : colonne `AUTO_INCREMENT` native de MySQL.
+- `@Enumerated(EnumType.STRING)` : la valeur texte de l'énumération est stockée (et non l'ordinal),
+  ce qui reste correct si l'ordre des constantes change.
+- `BigDecimal` pour les montants (pas de `double`, source d'erreurs d'arrondi).
+- `LocalDate` / `LocalDateTime` (API `java.time`) pour les dates.
+- `ddl-auto=update` : adapté au développement uniquement.
 
-| Scénario | Requêtes |
-|---|---|
-| 1. Mutation de l'agent Ahmed (Sousse) vers Tunis | `PUT /api/employes/1/desaffecter` puis `PUT /api/employes/1/affecter/1` |
-| 2. Véhicule neuf (Kia Sportage) rattaché à Sfax | `PUT /api/vehicules/3/affecter-agence/2` |
-| 3. Siège bébé installé puis retiré | `PUT /api/vehicules/1/affecter-equipement/2` puis `PUT /api/vehicules/1/desaffecter-equipement/2` |
+## Commits Git
 
-Règle métier du scénario 1 : un employé n'appartient qu'à une seule agence. Si on l'affecte alors qu'il est déjà dans une autre agence, l'API répond **409** et demande de le désaffecter d'abord.
-
-Les codes d'erreur : 404 (élément introuvable), 409 (règle métier ou contrainte d'intégrité).
+```
+git add .
+git commit -m "Atelier 1 : init projet Spring Boot + entité Vehicule"
+git commit -m "Prépa Atelier 2 : entités restantes sans associations"
+git push
+```

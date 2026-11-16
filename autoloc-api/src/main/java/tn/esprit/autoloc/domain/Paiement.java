@@ -1,7 +1,5 @@
 package tn.esprit.autoloc.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "paiement")
@@ -17,7 +15,6 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Paiement {
 
     @Id
@@ -28,15 +25,9 @@ public class Paiement {
     private BigDecimal montant;
 
     @Column(nullable = false)
-    private LocalDate datePaiement;
+    private LocalDateTime datePaiement;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private ModePaiement modePaiement;
-
-    /** N Paiement -> 1 Contrat (LAZY). */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contrat_id")
-    @JsonIgnore
-    private Contrat contrat;
 }
